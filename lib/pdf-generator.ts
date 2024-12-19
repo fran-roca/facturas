@@ -14,7 +14,7 @@ export const generatePDF = async (invoice: Invoice) => {
     try {
         const logoWidth = 30
         const logoHeight = 30
-        doc.addImage('logo.jpg', 'JPEG', doc.internal.pageSize.width - 50, 10, logoWidth, logoHeight)
+        doc.addImage('/facturas/logo.jpg', 'JPEG', doc.internal.pageSize.width - 50, 10, logoWidth, logoHeight)
     } catch (error) {
         console.error('Error loading logo:', error)
     }
