@@ -7,6 +7,7 @@ import { Invoice } from '@/lib/types'
 import { generatePDF } from '@/lib/pdf-generator'
 
 export default function InvoiceGenerator() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [invoice, setInvoice] = useState<Invoice | null>(null)
 
   const handleInvoiceCreate = async (newInvoice: Invoice) => {
