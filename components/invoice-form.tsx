@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Invoice, InvoiceItem, BillingDetails } from '@/lib/types'
+import { Trash2 } from 'lucide-react'
 
 interface InvoiceFormProps {
   onInvoiceCreate: (invoice: Invoice) => void
@@ -30,6 +31,11 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
     iva: 10,
     total: 0
   }])
+
+  const handleDeleteItem = (index: number) => {
+    const newItems = items.filter((_, i) => i !== index)
+    setItems(newItems)
+  }
 
   const handleBillingChange = (field: keyof BillingDetails, value: string) => {
     setBillingDetails(prev => ({
@@ -172,8 +178,8 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
         </CardHeader>
         <CardContent className="space-y-4">
           {items.map((item, index) => (
-            <div key={index} className="grid grid-cols-7 gap-4 p-4 border rounded-lg">
-              <div className="col-span-2">
+            <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 p-4 border rounded-lg">
+              <div className="col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
                 <Label>Artículo</Label>
                 <Input
                   value={item.article}
@@ -181,7 +187,7 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   required
                 />
               </div>
-              <div>
+              <div className="col-span-1">
                 <Label>Peso/Cantidad</Label>
                 <Input
                   type="number"
@@ -191,7 +197,7 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   required
                 />
               </div>
-              <div>
+              <div className="col-span-1">
                 <Label>Unidad</Label>
                 <Select
                   value={item.weightUnit}
@@ -206,7 +212,7 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   </SelectContent>
                 </Select>
               </div>
-              <div>
+              <div className="col-span-1">
                 <Label>Precio</Label>
                 <Input
                   type="number"
@@ -216,7 +222,7 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   required
                 />
               </div>
-              <div>
+              <div className="col-span-1">
                 <Label>% IVA</Label>
                 <Input
                   type="number"
@@ -225,7 +231,7 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   required
                 />
               </div>
-              <div>
+              <div className="col-span-1">
                 <Label>Total</Label>
                 <Input
                   type="number"
@@ -233,6 +239,19 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
                   value={typeof item.total === 'number' ? item.total.toFixed(2) : String(item.total)}
                   onChange={(e) => handleItemChange(index, 'total', e.target.value)}
                 />
+              </div>
+              <div className="col-span-1">
+                <Button
+                    type="button"
+                    variant="destructive"
+                    size="icon"
+                    onClick={() => handleDeleteItem(index)}
+                    disabled={items.length === 1}
+                    className="w-full h-10"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  <span className="sr-only">Delete item</span>
+                </Button>
               </div>
             </div>
           ))}

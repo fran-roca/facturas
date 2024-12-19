@@ -73,7 +73,12 @@ export const generatePDF = async (invoice: Invoice) => {
     // Table content
     let currentY = tableTop + 10
     invoice.items.forEach(item => {
-        doc.text(item.article, columnConfig.articulo.x, currentY)
+        const articleLines = doc.splitTextToSize(item.article, columnConfig.articulo.width-20)
+        doc.text(articleLines, columnConfig.articulo.x, currentY)
+
+        const lineHeight = doc.getTextDimensions('T').h
+        const articleHeight = articleLines.length * lineHeight
+
         doc.text(`${item.weight} ${item.weightUnit}`, columnConfig.peso.x, currentY)
         doc.text(`${parseFloat(item.price).toFixed(2)}`, columnConfig.precio.x, currentY, { align: 'left' })
         doc.text(`${item.subtotal.toFixed(2)}`, columnConfig.subtotal.x, currentY, { align: 'left' })
@@ -84,7 +89,7 @@ export const generatePDF = async (invoice: Invoice) => {
             currentY,
             { align: 'left' }
         )
-        currentY += 8
+        currentY += Math.max(articleHeight, lineHeight) + 4
     })
 
     // Line under items
