@@ -100,181 +100,180 @@ export default function InvoiceForm({ onInvoiceCreate }: InvoiceFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Detalles de Factura</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="invoiceNumber">Factura n.°</Label>
-            <Input
-              id="invoiceNumber"
-              value={invoiceNumber}
-              onChange={(e) => setInvoiceNumber(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="date">Fecha</Label>
-            <Input
-              id="date"
-              type="date"
-              value={date}
-              onChange={(e) => setDate(e.target.value)}
-              required
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>FACTURAR A</CardTitle>
-        </CardHeader>
-        <CardContent className="grid grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="name">Nombre/Empresa</Label>
-            <Input
-              id="name"
-              value={billingDetails.name}
-              onChange={(e) => handleBillingChange('name', e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="taxId">NIF/CIF</Label>
-            <Input
-              id="taxId"
-              value={billingDetails.taxId}
-              onChange={(e) => handleBillingChange('taxId', e.target.value)}
-              required
-            />
-          </div>
-          <div className="col-span-2">
-            <Label htmlFor="address">Dirección</Label>
-            <Input
-              id="address"
-              value={billingDetails.address}
-              onChange={(e) => handleBillingChange('address', e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="postalCode">Código Postal</Label>
-            <Input
-              id="postalCode"
-              value={billingDetails.postalCode}
-              onChange={(e) => handleBillingChange('postalCode', e.target.value)}
-              required
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle>Artículos</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {items.map((item, index) => (
-            <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4 p-4 border rounded-lg">
-              <div className="col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
-                <Label>Artículo</Label>
-                <Input
-                  value={item.article}
-                  onChange={(e) => handleItemChange(index, 'article', e.target.value)}
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Detalles de Factura</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="invoiceNumber">Factura n.°</Label>
+              <Input
+                  id="invoiceNumber"
+                  value={invoiceNumber}
+                  onChange={(e) => setInvoiceNumber(e.target.value)}
                   required
-                />
-              </div>
-              <div className="col-span-1">
-                <Label>Peso/Cantidad</Label>
-                <Input
-                  type="number"
-                  step="0.001"
-                  value={item.weight}
-                  onChange={(e) => handleItemChange(index, 'weight', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="col-span-1">
-                <Label>Unidad</Label>
-                <Select
-                  value={item.weightUnit}
-                  onValueChange={(value) => handleItemChange(index, 'weightUnit', value)}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Unidad" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="kg">kg</SelectItem>
-                    <SelectItem value="und">und</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="col-span-1">
-                <Label>Precio</Label>
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={item.price}
-                  onChange={(e) => handleItemChange(index, 'price', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="col-span-1">
-                <Label>% IVA</Label>
-                <Input
-                  type="number"
-                  value={item.iva}
-                  onChange={(e) => handleItemChange(index, 'iva', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="col-span-1">
-                <Label>Total</Label>
-                <Input
-                  type="number"
-                  step="0.01"
-                  value={typeof item.total === 'number' ? item.total.toFixed(2) : String(item.total)}
-                  onChange={(e) => handleItemChange(index, 'total', e.target.value)}
-                />
-              </div>
-              <div className="col-span-1">
-                <Button
-                    type="button"
-                    variant="destructive"
-                    size="icon"
-                    onClick={() => handleDeleteItem(index)}
-                    disabled={items.length === 1}
-                    className="w-full h-10"
-                >
-                  <Trash2 className="h-4 w-4" />
-                  <span className="sr-only">Delete item</span>
-                </Button>
-              </div>
+              />
             </div>
-          ))}
-          <Button
-            type="button"
-            variant="outline"
-            onClick={() => setItems([...items, {
-              article: '',
-              weight: '',
-              weightUnit: 'kg',
-              price: '',
-              subtotal: 0,
-              iva: 10,
-              total: 0
-            }])}
-          >
-            Añadir Artículo
-          </Button>
-        </CardContent>
-      </Card>
+            <div>
+              <Label htmlFor="date">Fecha</Label>
+              <Input
+                  id="date"
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  required
+              />
+            </div>
+          </CardContent>
+        </Card>
 
-      <Button type="submit" className="w-full">Generar Factura</Button>
-    </form>
+        <Card>
+          <CardHeader>
+            <CardTitle>FACTURAR A</CardTitle>
+          </CardHeader>
+          <CardContent className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="name">Nombre/Empresa</Label>
+              <Input
+                  id="name"
+                  value={billingDetails.name}
+                  onChange={(e) => handleBillingChange('name', e.target.value)}
+                  required
+              />
+            </div>
+            <div>
+              <Label htmlFor="taxId">NIF/CIF</Label>
+              <Input
+                  id="taxId"
+                  value={billingDetails.taxId}
+                  onChange={(e) => handleBillingChange('taxId', e.target.value)}
+                  required
+              />
+            </div>
+            <div className="col-span-2">
+              <Label htmlFor="address">Dirección</Label>
+              <Input
+                  id="address"
+                  value={billingDetails.address}
+                  onChange={(e) => handleBillingChange('address', e.target.value)}
+                  required
+              />
+            </div>
+            <div>
+              <Label htmlFor="postalCode">Código Postal</Label>
+              <Input
+                  id="postalCode"
+                  value={billingDetails.postalCode}
+                  onChange={(e) => handleBillingChange('postalCode', e.target.value)}
+                  required
+              />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Artículos</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {items.map((item, index) => (
+                <div key={index} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-4 p-4 border rounded-lg">
+                  <div className="col-span-1 sm:col-span-2 md:col-span-1 lg:col-span-2">
+                    <Label>Artículo</Label>
+                    <Input
+                        value={item.article}
+                        onChange={(e) => handleItemChange(index, 'article', e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <Label>Peso/Cantidad</Label>
+                    <Input
+                        type="number"
+                        step="0.001"
+                        value={item.weight}
+                        onChange={(e) => handleItemChange(index, 'weight', e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <Label>Unidad</Label>
+                    <Select
+                        value={item.weightUnit}
+                        onValueChange={(value) => handleItemChange(index, 'weightUnit', value)}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Unidad" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="kg">kg</SelectItem>
+                        <SelectItem value="und">und</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="col-span-1">
+                    <Label>Precio</Label>
+                    <Input
+                        type="number"
+                        step="0.01"
+                        value={item.price}
+                        onChange={(e) => handleItemChange(index, 'price', e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <Label>% IVA</Label>
+                    <Input
+                        type="number"
+                        value={item.iva}
+                        onChange={(e) => handleItemChange(index, 'iva', e.target.value)}
+                        required
+                    />
+                  </div>
+                  <div className="col-span-1">
+                    <Label>Total</Label>
+                    <Input
+                        type="number"
+                        step="0.01"
+                        value={typeof item.total === 'number' ? item.total.toFixed(2) : String(item.total)}
+                        onChange={(e) => handleItemChange(index, 'total', e.target.value)}
+                    />
+                  </div>
+                  <div className="col-span-1 flex items-end">
+                    <Button
+                        type="button"
+                        variant="destructive"
+                        size="icon"
+                        onClick={() => handleDeleteItem(index)}
+                        disabled={items.length === 1}
+                        className="h-10 w-10"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      <span className="sr-only">Delete item</span>
+                    </Button>
+                  </div>
+                </div>
+            ))}
+            <Button
+                type="button"
+                variant="outline"
+                onClick={() => setItems([...items, {
+                  article: '',
+                  weight: '',
+                  weightUnit: 'kg',
+                  price: '',
+                  subtotal: 0,
+                  iva: 10,
+                  total: 0
+                }])}
+            >
+              Añadir Artículo
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Button type="submit" className="w-full">Generar Factura</Button>
+      </form>
   )
 }
-
